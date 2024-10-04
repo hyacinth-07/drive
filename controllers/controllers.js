@@ -5,6 +5,15 @@ const prisma = new PrismaClient();
 
 // HELLO WORLD
 exports.helloWorld = async (req, res) => {
-	const list = await prisma.user.findMany();
-	res.send(`Hello world, ${list[0].email}`);
+	res.render('helloWorld', { user: req.user });
+};
+
+// LOG OUT GET
+exports.logOut = async (req, res, next) => {
+	req.logout((err) => {
+		if (err) {
+			return next(err);
+		}
+		res.redirect('/');
+	});
 };
