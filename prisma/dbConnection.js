@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 async function main() {
 	// ... you will write your Prisma Client queries here
 	// createTestUser();
+	findUsers();
 }
 
 main()
@@ -27,4 +28,9 @@ async function createTestUser() {
 		},
 	});
 	console.log(testUser);
+}
+
+async function findUsers() {
+	const list = await prisma.user.findMany();
+	console.log(list);
 }
