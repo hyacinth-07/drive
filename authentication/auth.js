@@ -1,6 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-const bycrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 
 // LOGIN USER
 
@@ -15,7 +15,10 @@ exports.loginUser = async (username, password, done) => {
 		return done(null, false, { message: 'Incorrect username' });
 	}
 
-	if (user.password !== password) {
+	// check hashed passwords
+	const match = await bcrypt.compare(password, user.password);
+	if (!match) {
+		// passwords do not match!
 		return done(null, false, { message: 'Incorrect password' });
 	}
 	return done(null, user);

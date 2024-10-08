@@ -1,8 +1,9 @@
 // include validation
 // and cryptography
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+// const { PrismaClient } = require('@prisma/client');
+// const prisma = new PrismaClient();
 const db = require('../prisma/dbFunctions');
+const bcrypt = require('bcryptjs');
 
 // HELLO WORLD
 exports.helloWorld = async (req, res) => {
@@ -24,8 +25,11 @@ exports.signUp = async (req, res, next) => {
 	// validation goes here
 
 	try {
-		await db.addUser(username, password);
-		res.redirect('/');
+		bcrypt.hash(password, 10, async (err, hashedPassword) => {
+			if (err) return err;
+			await db.addUser(username, hashedPassword);
+			res.redirect('/');
+		});
 	} catch (error) {
 		return next(error);
 	}
