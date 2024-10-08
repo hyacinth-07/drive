@@ -1,7 +1,4 @@
-// include validation
-// and cryptography
-// const { PrismaClient } = require('@prisma/client');
-// const prisma = new PrismaClient();
+const { body, validationResult } = require('express-validator');
 const db = require('../prisma/dbFunctions');
 const bcrypt = require('bcryptjs');
 
@@ -11,6 +8,21 @@ exports.helloWorld = async (req, res) => {
 };
 
 // SIGN UP POST
+
+// validation middleware
+
+exports.validateSignUp = [
+	body('username')
+		.trim()
+		.isLength({ min: 1 })
+		.withMessage('Username is required')
+		.escape(),
+	body('password')
+		.trim()
+		.isLength({ min: 1 })
+		.withMessage('Password is required')
+		.escape(),
+];
 
 exports.signUp = async (req, res, next) => {
 	const username = req.body.username;
@@ -22,16 +34,22 @@ exports.signUp = async (req, res, next) => {
 		return;
 	}
 
-	// validation goes here
+	const validationErrors = validationResult(req);
 
-	try {
-		bcrypt.hash(password, 10, async (err, hashedPassword) => {
-			if (err) return err;
-			await db.addUser(username, hashedPassword);
-			res.redirect('/');
-		});
-	} catch (error) {
-		return next(error);
+	if (!validationErrors.isEmpty()) {
+		// error works, but doesn't show properly
+		res.send({ errors: errors.array() });
+		return;
+	} else {
+		try {
+			bcrypt.hash(password, 10, async (err, hashedPassword) => {
+				if (err) return err;
+				await db.addUser(username, hashedPassword);
+				res.redirect('/');
+			});
+		} catch (error) {
+			return next(error);
+		}
 	}
 };
 

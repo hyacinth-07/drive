@@ -64,6 +64,7 @@ passport.deserializeUser(async (id, done) => {
 });
 
 // authenticate
+// NOTE: technically I should also validate this, which is not working
 
 app.post(
 	'/log-in',
