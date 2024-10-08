@@ -2,10 +2,33 @@
 // and cryptography
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const db = require('../prisma/dbFunctions');
 
 // HELLO WORLD
 exports.helloWorld = async (req, res) => {
 	res.render('helloWorld', { user: req.user });
+};
+
+// SIGN UP POST
+
+exports.signUp = async (req, res, next) => {
+	const username = req.body.username;
+	const password = req.body.password;
+	const confirmPassword = req.body.confirmPassword;
+
+	if (password != confirmPassword) {
+		res.send('Passwords do not match!');
+		return;
+	}
+
+	// validation goes here
+
+	try {
+		await db.addUser(username, password);
+		res.redirect('/');
+	} catch (error) {
+		return next(error);
+	}
 };
 
 // LOG OUT GET

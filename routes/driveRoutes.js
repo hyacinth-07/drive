@@ -5,6 +5,9 @@ const driveController = require('../controllers/controllers');
 // HELLO WORLD
 router.get('/', driveController.helloWorld);
 
+// SIGN UP POST
+router.post('/sign-up', driveController.signUp);
+
 // LOG IN GET
 router.get('/log-in', (req, res) => res.render('log-in'));
 
