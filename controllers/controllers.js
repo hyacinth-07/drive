@@ -68,3 +68,9 @@ exports.logOut = async (req, res, next) => {
 		res.redirect('/');
 	});
 };
+
+// GET FOLDERS
+
+exports.getFolders = async (req, res) => {
+	res.render('userPage');
+};
