@@ -7,6 +7,12 @@ exports.helloWorld = async (req, res) => {
 	res.render('helloWorld', { user: req.user });
 };
 
+// VERIFY USER LOG IN
+exports.verifyUser = async (req, res, next) => {
+	if (!req.user) return res.redirect('/');
+	next();
+};
+
 // SIGN UP POST
 
 // validation middleware

@@ -19,10 +19,17 @@ router.get('/log-out', driveController.logOut);
 
 ///// FILE UPLOAD -- MULTER ////
 
-router.get('/upload', (req, res) => res.render('uploadForm'));
+router.get('/upload', driveController.verifyUser, (req, res) =>
+	res.render('uploadForm')
+);
 
-router.post('/upload', upload.single('file'), (req, res) => {
-	res.send(req.body);
-});
+router.post(
+	'/upload',
+	driveController.verifyUser,
+	upload.single('file'),
+	(req, res) => {
+		res.render('fileUploaded');
+	}
+);
 
 module.exports = router;
