@@ -72,5 +72,5 @@ exports.logOut = async (req, res, next) => {
 // GET FOLDERS
 
 exports.getFolders = async (req, res) => {
-	res.render('userPage');
+	res.render('userPage', { user: req.user });
 };

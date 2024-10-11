@@ -9,7 +9,7 @@
 		<p>Hello World!</p>
 		<% if (user) { %>
 		<h1>WELCOME BACK <%= user.name %></h1>
-		<p>Go to your files <a href="/:id">FILES</a></p> </p>
+		<p>Go to your files <a href="<%= "/" + user.id %>">FILES</a></p> </p>
 		<p>Upload a new file <a href="/upload/">UPLOAD</a></p>
 		<a href="/log-out">LOG OUT</a>
 		<% } else { %>
