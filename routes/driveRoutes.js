@@ -43,6 +43,13 @@ router.post(
 	driveController.addFolder
 );
 
+// GET FILES
+router.get(
+	'/:userId/:folderId',
+	driveController.validateSignUp,
+	driveController.getFiles
+);
+
 ///// FILE UPLOAD ////
 
 router.get('/upload', driveController.verifyUser, (req, res) =>

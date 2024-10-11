@@ -8,4 +8,15 @@
 	</form>
 </div>
 
-<div>User folders and files</div>
+<div>
+	<h2>User folders and files</h2>
+	<ul>
+		<% folders.forEach((elem) => { %>
+		<a href="<%= user.id %>/<%= elem.id %>"><li><%= elem.name %></li></a>
+		<% }); %>
+	</ul>
+</div>
+
+<div>
+	<p><a href="\">go home</a></p>
+</div>

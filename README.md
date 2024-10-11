@@ -1,4 +1,4 @@
 # drive
 
-- doing the folder structure
-- review https://expressjs.com/en/guide/routing.html
+- every user now has different folders
+- try to upload files

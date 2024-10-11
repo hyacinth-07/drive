@@ -1,4 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
+const { name } = require('ejs');
 const prisma = new PrismaClient();
 
 // ADD USER
@@ -25,4 +26,30 @@ exports.addFolder = async (folderName, folderUser) => {
 	});
 
 	console.log(newFolder);
+};
+
+exports.getFolders = async (folderUser) => {
+	const folder = await prisma.user.findFirst({
+		where: {
+			name: folderUser,
+		},
+		include: {
+			folders: true,
+		},
+	});
+
+	return folder.folders;
+};
+
+exports.getFiles = async (folderId) => {
+	const files = await prisma.folder.findMany({
+		where: {
+			id: folderId,
+		},
+		include: {
+			files: true,
+		},
+	});
+
+	return files;
 };

@@ -70,14 +70,19 @@ exports.logOut = async (req, res, next) => {
 };
 
 // GET FOLDERS
-
 exports.getFolders = async (req, res) => {
-	console.log({ user: req.user });
-	res.render('userPage', { user: req.user });
+	const folders = await db.getFolders(req.user.name);
+
+	res.render('userPage', { user: req.user, folders: folders });
+};
+
+// GET FILES
+exports.getFiles = async (req, res) => {
+	const files = await db.getFiles(req.params.folderId);
+	res.render('filePage', { files: files, parentFolder: req.params });
 };
 
 // ADD FOLDERS
-
 exports.addFolder = async (req, res) => {
 	const folderName = req.body.folderName;
 	const folderUser = req.user.id;
