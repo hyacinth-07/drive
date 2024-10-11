@@ -15,3 +15,14 @@ exports.addUser = async (username, password) => {
 	});
 	console.log(newUser);
 };
+
+exports.addFolder = async (folderName, folderUser) => {
+	const newFolder = await prisma.folder.create({
+		data: {
+			name: folderName,
+			userId: folderUser,
+		},
+	});
+
+	console.log(newFolder);
+};

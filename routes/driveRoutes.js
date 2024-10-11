@@ -18,6 +18,9 @@ const upload = multer({ storage: storage });
 // HELLO WORLD
 router.get('/', driveController.helloWorld);
 
+// SIGN UP GET
+router.get('/sign-up', (req, res) => res.render('sign-up'));
+
 // SIGN UP POST
 router.post('/sign-up', driveController.validateSignUp, driveController.signUp);
 
@@ -32,6 +35,12 @@ router.get(
 	'/:userId',
 	driveController.validateSignUp,
 	driveController.getFolders
+);
+
+router.post(
+	'/addFolder',
+	driveController.validateSignUp,
+	driveController.addFolder
 );
 
 ///// FILE UPLOAD ////

@@ -72,5 +72,17 @@ exports.logOut = async (req, res, next) => {
 // GET FOLDERS
 
 exports.getFolders = async (req, res) => {
+	console.log({ user: req.user });
 	res.render('userPage', { user: req.user });
+};
+
+// ADD FOLDERS
+
+exports.addFolder = async (req, res) => {
+	const folderName = req.body.folderName;
+	const folderUser = req.user.id;
+
+	await db.addFolder(folderName, folderUser);
+	console.log('Added folder!');
+	res.redirect(`/` + folderUser);
 };
