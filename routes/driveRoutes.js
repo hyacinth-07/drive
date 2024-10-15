@@ -37,10 +37,25 @@ router.get(
 	driveController.getFolders
 );
 
+// ADD FOLDERS
 router.post(
 	'/addFolder',
 	driveController.validateSignUp,
 	driveController.addFolder
+);
+
+// RENAME FOLDERS GET
+router.get(
+	'/:userId/:folderId/rename',
+	driveController.validateSignUp,
+	driveController.renameFolderGet
+);
+
+// RENAME FOLDERS POST
+router.post(
+	'/:userId/:folderId/rename',
+	driveController.validateSignUp,
+	driveController.renameFolderPost
 );
 
 // GET FILES

@@ -12,11 +12,13 @@
 	<h2>User folders and files</h2>
 	<ul>
 		<% folders.forEach((elem) => { %>
-		<a href="<%= user.id %>/<%= elem.id %>"><li><%= elem.name %></li></a>
-		<% }); %>
+			<li><a href="<%= user.id %>/<%= elem.id %>"><%= elem.name %></a> || <a href="<%= user.id %>/<%= elem.id %>/rename">rename</li>
+			<% }); %>
 	</ul>
 </div>
 
 <div>
 	<p><a href="\">go home</a></p>
 </div>
+
+

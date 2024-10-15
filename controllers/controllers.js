@@ -76,10 +76,23 @@ exports.getFolders = async (req, res) => {
 	res.render('userPage', { user: req.user, folders: folders });
 };
 
-// GET FILES
-exports.getFiles = async (req, res) => {
-	const files = await db.getFiles(req.params.folderId);
-	res.render('filePage', { files: files, parentFolder: req.params });
+// GET RENAME SCREEN
+exports.renameFolderGet = async (req, res) => {
+	const folder = await db.getOneFolder(req.params.folderId);
+
+	res.render('updateFolder', { folderName: folder.name });
+};
+
+// POST RENAME SCREEN
+
+exports.renameFolderPost = async (req, res) => {
+	const userId = req.params.userId;
+	const folderId = req.params.folderId;
+	const folderNewName = req.body.newName;
+
+	await db.renameFolder(folderId, folderNewName);
+
+	res.redirect('/' + userId);
 };
 
 // ADD FOLDERS
@@ -90,4 +103,10 @@ exports.addFolder = async (req, res) => {
 	await db.addFolder(folderName, folderUser);
 	console.log('Added folder!');
 	res.redirect(`/` + folderUser);
+};
+
+// GET FILES
+exports.getFiles = async (req, res) => {
+	const files = await db.getFiles(req.params.folderId);
+	res.render('filePage', { files: files, parentFolder: req.params });
 };
