@@ -12,7 +12,7 @@
 	<h2>User folders and files</h2>
 	<ul>
 		<% folders.forEach((elem) => { %>
-			<li><a href="<%= user.id %>/<%= elem.id %>"><%= elem.name %></a> || <a href="<%= user.id %>/<%= elem.id %>/rename">rename</li>
+			<li><a href="<%= user.id %>/<%= elem.id %>"><%= elem.name %></a> || <a href="<%= user.id %>/<%= elem.id %>/rename">rename || <a href="<%= user.id %>/<%= elem.id %>/delete">delete</li>
 			<% }); %>
 	</ul>
 </div>

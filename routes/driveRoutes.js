@@ -58,6 +58,20 @@ router.post(
 	driveController.renameFolderPost
 );
 
+// DELETE FOLDER GET
+router.get(
+	'/:userId/:folderId/delete',
+	driveController.validateSignUp,
+	driveController.deleteFolderGet
+);
+
+// DELETE FOLDER POST
+router.post(
+	'/:userId/:folderId/delete',
+	driveController.validateSignUp,
+	driveController.deleteFolder
+);
+
 // GET FILES
 router.get(
 	'/:userId/:folderId',

@@ -84,7 +84,6 @@ exports.renameFolderGet = async (req, res) => {
 };
 
 // POST RENAME SCREEN
-
 exports.renameFolderPost = async (req, res) => {
 	const userId = req.params.userId;
 	const folderId = req.params.folderId;
@@ -92,6 +91,21 @@ exports.renameFolderPost = async (req, res) => {
 
 	await db.renameFolder(folderId, folderNewName);
 
+	res.redirect('/' + userId);
+};
+
+// GET DELETE SCREEN
+exports.deleteFolderGet = async (req, res) => {
+	const folder = await db.getOneFolder(req.params.folderId);
+	res.render('deleteFolder', { folderName: folder.name });
+};
+
+// DELETE FOLDER
+exports.deleteFolder = async (req, res) => {
+	const userId = req.params.userId;
+	const folderId = req.params.folderId;
+
+	await db.deleteFolder(folderId);
 	res.redirect('/' + userId);
 };
 

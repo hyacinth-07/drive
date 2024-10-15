@@ -66,6 +66,14 @@ exports.renameFolder = async (folderId, newName) => {
 	// console.log(folder);
 };
 
+exports.deleteFolder = async (folderId) => {
+	await prisma.folder.delete({
+		where: {
+			id: folderId,
+		},
+	});
+};
+
 // --- FILES LOGIC --
 
 exports.getFiles = async (folderId) => {
