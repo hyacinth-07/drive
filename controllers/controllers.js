@@ -88,14 +88,30 @@ exports.renameFolderGet = async (req, res) => {
 };
 
 // POST RENAME SCREEN
+
+exports.validateRename = [
+	body('newName')
+		.trim()
+		.isLength({ min: 1 })
+		.withMessage('Name is required')
+		.escape(),
+];
+
 exports.renameFolderPost = async (req, res) => {
 	const userId = req.params.userId;
 	const folderId = req.params.folderId;
 	const folderNewName = req.body.newName;
 
-	await db.renameFolder(folderId, folderNewName);
+	const validationErrors = validationResult(req);
 
-	res.redirect('/' + userId);
+	if (!validationErrors.isEmpty()) {
+		// error works, but doesn't show properly
+		console.log('must not be empty');
+		res.redirect('/' + userId);
+	} else {
+		await db.renameFolder(folderId, folderNewName);
+		res.redirect('/' + userId);
+	}
 };
 
 // GET DELETE SCREEN
@@ -119,13 +135,30 @@ exports.deleteFolder = async (req, res) => {
 };
 
 // ADD FOLDERS
+
+exports.validateFolderName = [
+	body('folderName')
+		.trim()
+		.isLength({ min: 1 })
+		.withMessage('Name is required')
+		.escape(),
+];
+
 exports.addFolder = async (req, res) => {
 	const folderName = req.body.folderName;
 	const folderUser = req.user.id;
 
-	await db.addFolder(folderName, folderUser);
-	console.log('Added folder!');
-	res.redirect(`/` + folderUser);
+	const validationErrors = validationResult(req);
+
+	if (!validationErrors.isEmpty()) {
+		// error works, but doesn't show properly
+		console.log('must not be empty');
+		res.redirect('/' + folderUser);
+	} else {
+		await db.addFolder(folderName, folderUser);
+		console.log('Added folder!');
+		res.redirect(`/` + folderUser);
+	}
 };
 
 // GET FILES

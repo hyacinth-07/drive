@@ -31,51 +31,49 @@ router.get('/log-in', (req, res) => res.render('log-in'));
 router.get('/log-out', driveController.logOut);
 
 // GET FOLDERS
-router.get(
-	'/:userId',
-	driveController.validateSignUp,
-	driveController.getFolders
-);
+router.get('/:userId', driveController.verifyUser, driveController.getFolders);
 
 // ADD FOLDERS
 router.post(
 	'/addFolder',
-	driveController.validateSignUp,
+	driveController.verifyUser,
+	driveController.validateFolderName,
 	driveController.addFolder
 );
 
 // RENAME FOLDERS GET
 router.get(
 	'/:userId/:folderId/rename',
-	driveController.validateSignUp,
+	driveController.verifyUser,
 	driveController.renameFolderGet
 );
 
 // RENAME FOLDERS POST
 router.post(
 	'/:userId/:folderId/rename',
-	driveController.validateSignUp,
+	driveController.verifyUser,
+	driveController.validateRename,
 	driveController.renameFolderPost
 );
 
 // DELETE FOLDER GET
 router.get(
 	'/:userId/:folderId/delete',
-	driveController.validateSignUp,
+	driveController.verifyUser,
 	driveController.deleteFolderGet
 );
 
 // DELETE FOLDER POST
 router.post(
 	'/:userId/:folderId/delete',
-	driveController.validateSignUp,
+	driveController.verifyUser,
 	driveController.deleteFolder
 );
 
 // GET FILES
 router.get(
 	'/:userId/:folderId',
-	driveController.validateSignUp,
+	driveController.verifyUser,
 	driveController.getFiles
 );
 
