@@ -167,3 +167,22 @@ exports.getFiles = async (req, res) => {
 	const files = await db.getFiles(req.params.folderId);
 	res.render('filePage', { files: files, parentFolder: req.params });
 };
+
+// UPLOAD FILES
+exports.uploadScreen = async (req, res) => {
+	res.render('uploadForm', { user: req.user });
+};
+
+exports.uploadFiles = async (req, res) => {
+	// these are placeholders
+
+	if (!req.files) {
+		console.log('no file to upload');
+		return res.redirect('/');
+	}
+
+	if (req.file) {
+		console.log('file can be uploaded');
+		return res.redirect('/upload');
+	}
+};

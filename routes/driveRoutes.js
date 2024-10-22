@@ -30,6 +30,17 @@ router.get('/log-in', (req, res) => res.render('log-in'));
 // LOGOUT GET
 router.get('/log-out', driveController.logOut);
 
+///// FILE UPLOAD ////
+
+router.get('/upload', driveController.verifyUser, driveController.uploadScreen);
+
+router.post(
+	'/upload',
+	driveController.verifyUser,
+	// upload.single('file'),
+	driveController.uploadFiles
+);
+
 // GET FOLDERS
 router.get('/:userId', driveController.verifyUser, driveController.getFolders);
 
@@ -75,19 +86,6 @@ router.get(
 	'/:userId/:folderId',
 	driveController.verifyUser,
 	driveController.getFiles
-);
-
-///// FILE UPLOAD ////
-
-router.get('/upload', driveController.verifyUser, (req, res) =>
-	res.render('uploadForm')
-);
-
-router.post(
-	'/upload',
-	driveController.verifyUser,
-	upload.single('file'),
-	(req, res) => res.render('fileUploaded')
 );
 
 module.exports = router;
