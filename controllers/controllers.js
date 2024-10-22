@@ -1,6 +1,7 @@
 const { body, validationResult } = require('express-validator');
 const db = require('../prisma/dbFunctions');
 const bcrypt = require('bcryptjs');
+const supabase = require('../supabase/supabaseClient');
 
 // HELLO WORLD
 exports.helloWorld = async (req, res) => {

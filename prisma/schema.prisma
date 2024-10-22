@@ -41,8 +41,12 @@ model Folder {
 
 model File {
   id        String   @unique @default(uuid())
-  name      String   @unique
+  name      String
+  url       String // supabase url
+  size      BigInt
+  fileType  String
+  folder    Folder?  @relation(fields: [folderId], references: [id])
+  folderId  String?
   createdAt DateTime @default(now())
-  folder    Folder   @relation(fields: [folderId], references: [id])
-  folderId  String
+  updatedAt DateTime @updatedAt
 }
