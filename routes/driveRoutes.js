@@ -3,17 +3,7 @@ const router = express.Router();
 const driveController = require('../controllers/controllers');
 // FILE UPLOAD
 const multer = require('multer');
-
-const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, 'uploads/');
-	},
-	filename: function (req, file, cb) {
-		cb(null, file.fieldname + '-' + Date.now());
-	},
-});
-
-const upload = multer({ storage: storage });
+const upload = multer({ dest: 'uploads/' });
 
 // HELLO WORLD
 router.get('/', driveController.helloWorld);
@@ -37,7 +27,7 @@ router.get('/upload', driveController.verifyUser, driveController.uploadScreen);
 router.post(
 	'/upload',
 	driveController.verifyUser,
-	// upload.single('file'),
+	upload.single('file'),
 	driveController.uploadFiles
 );
 

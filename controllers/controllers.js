@@ -1,7 +1,7 @@
 const { body, validationResult } = require('express-validator');
 const db = require('../prisma/dbFunctions');
 const bcrypt = require('bcryptjs');
-const supabase = require('../supabase/supabaseClient');
+const { supabase } = require('../supabase/supabaseClient');
 
 // HELLO WORLD
 exports.helloWorld = async (req, res) => {
@@ -174,15 +174,26 @@ exports.uploadScreen = async (req, res) => {
 };
 
 exports.uploadFiles = async (req, res) => {
-	// these are placeholders
+	// stuff to add:
+	// if file does not exist, redirect
+	// get url from file
+	// create reference in local db
+	// clean up /upload files
 
-	if (!req.files) {
-		console.log('no file to upload');
-		return res.redirect('/');
-	}
+	try {
+		const { file } = req;
 
-	if (req.file) {
-		console.log('file can be uploaded');
-		return res.redirect('/upload');
+		const { data, error } = await supabase.storage
+			.from('publicfiles')
+			.upload(`uploads/${file.originalname}`, file.path);
+
+		if (error) {
+			throw error;
+		}
+
+		// console.log('Upload successful', data);
+		res.redirect('/');
+	} catch (error) {
+		res.status(500).json({ error: error.message });
 	}
 };
