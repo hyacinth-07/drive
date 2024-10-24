@@ -71,11 +71,11 @@ exports.logOut = async (req, res, next) => {
 	});
 };
 
-// GET FOLDERS
-exports.getFolders = async (req, res) => {
-	const folders = await db.getFolders(req.user.name);
+// GET FILES AND FOLDERS
+exports.getFilesAndFolders = async (req, res) => {
+	const [folders, files] = await db.getFilesAndFolders(req.user.id);
 
-	res.render('userPage', { user: req.user, folders: folders });
+	res.render('userPage', { user: req.user, folders: folders, files: files });
 };
 
 // GET RENAME SCREEN
@@ -163,10 +163,10 @@ exports.addFolder = async (req, res) => {
 	}
 };
 
-// GET FILES
-exports.getFiles = async (req, res) => {
-	const files = await db.getFiles(req.params.folderId);
-	res.render('filePage', { files: files, parentFolder: req.params });
+// GET FOLDER CONTENT
+exports.getFolderContent = async (req, res) => {
+	const folderContent = await db.getFolderContent(req.params.folderId);
+	res.render('filePage', { files: folderContent, parentFolder: req.params });
 };
 
 // UPLOAD FILES
@@ -175,18 +175,14 @@ exports.uploadScreen = async (req, res) => {
 };
 
 exports.uploadFiles = async (req, res) => {
-	// stuff to add:
-	// get url from file
-	// create reference in local db
-
 	if (!req.file) {
 		console.log('file does not exist');
 		return res.redirect('/upload');
 	}
 
-	try {
-		const { file } = req;
+	const { file } = req;
 
+	try {
 		const { data, error } = await supabase.storage
 			.from('publicfiles')
 			.upload(`uploads/${file.originalname}`, file.path);
@@ -199,9 +195,7 @@ exports.uploadFiles = async (req, res) => {
 			.from('publicfiles')
 			.getPublicUrl(`uploads/${file.originalname}`);
 
-		// console.log(url, url.data.publicUrl);
-
-		const newFile = await db.addFile(file, url.data.publicUrl, req.user.id);
+		await db.addFile(file, url.data.publicUrl, req.user.id);
 
 		// clean up temporary folder
 		fs.unlinkSync(file.path);
@@ -209,6 +203,6 @@ exports.uploadFiles = async (req, res) => {
 		res.redirect('/');
 	} catch (error) {
 		res.status(500).json({ error: error.message });
-		// fs.unlinkSync(file.path);
+		fs.unlinkSync(file.path);
 	}
 };

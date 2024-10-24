@@ -31,8 +31,12 @@ router.post(
 	driveController.uploadFiles
 );
 
-// GET FOLDERS
-router.get('/:userId', driveController.verifyUser, driveController.getFolders);
+// GET USER FILES AND FOLDERS
+router.get(
+	'/:userId',
+	driveController.verifyUser,
+	driveController.getFilesAndFolders
+);
 
 // ADD FOLDERS
 router.post(
@@ -71,11 +75,11 @@ router.post(
 	driveController.deleteFolder
 );
 
-// GET FILES
+// GET FOLDER CONTENT
 router.get(
 	'/:userId/:folderId',
 	driveController.verifyUser,
-	driveController.getFiles
+	driveController.getFolderContent
 );
 
 module.exports = router;

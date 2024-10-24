@@ -9,7 +9,7 @@
 </div>
 
 <div>
-	<h2>User folders and files</h2>
+	<h2>User folders</h2>
 	<table>	
 			<tbody>
 				<% folders.forEach((elem) => { %>
@@ -21,6 +21,20 @@
 						<%}) %>
 			</tbody>
 	</table>
+
+	<% if (files) { %>
+
+<h3>and Files</h3>
+		<table>
+			<tbody>
+				<% files.forEach((elem) => { %>
+					<th> <%= elem.name %></th>
+					<td> - delete</td>
+					<td> - download</td>
+				<% }) %>
+			</tbody>
+		</table>
+		<% } %>
 </div>
 
 <div>

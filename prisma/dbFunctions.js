@@ -31,17 +31,23 @@ exports.addFolder = async (folderName, folderUser) => {
 	// console.log(newFolder);
 };
 
-exports.getFolders = async (folderUser) => {
+exports.getFilesAndFolders = async (folderUser) => {
 	const folder = await prisma.user.findFirst({
 		where: {
-			name: folderUser,
+			id: folderUser,
 		},
 		include: {
 			folders: true,
 		},
 	});
 
-	return folder.folders;
+	const files = await prisma.file.findMany({
+		where: {
+			userId: folderUser,
+		},
+	});
+
+	return [folder.folders, files];
 };
 
 exports.getOneFolder = async (folderId) => {
@@ -77,8 +83,8 @@ exports.deleteFolder = async (folderId) => {
 
 // --- FILES LOGIC --
 
-exports.getFiles = async (folderId) => {
-	const files = await prisma.folder.findMany({
+exports.getFolderContent = async (folderId, userId) => {
+	const folderContent = await prisma.folder.findMany({
 		where: {
 			id: folderId,
 		},
@@ -87,7 +93,7 @@ exports.getFiles = async (folderId) => {
 		},
 	});
 
-	return files;
+	return folderContent;
 };
 
 exports.addFile = async (file, publicUrl, user) => {
