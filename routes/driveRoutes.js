@@ -82,4 +82,11 @@ router.get(
 	driveController.getFolderContent
 );
 
+// DELETE FILES NOT IN FOLDER
+router.get(
+	'/:userId/_/:fileId/delete',
+	driveController.verifyUser,
+	driveController.getFilesNotInFolder
+);
+
 module.exports = router;

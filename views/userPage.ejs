@@ -28,8 +28,8 @@
 		<table>
 			<tbody>
 				<% files.forEach((elem) => { %>
-					<th> <%= elem.name %></th>
-					<td> - delete</td>
+					<th><%= elem.name %></th>
+					<td><a href="<%= user.id %>/_/<%= elem.id %>/delete"> - delete</td>
 					<td> - download</td>
 				<% }) %>
 			</tbody>

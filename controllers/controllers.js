@@ -206,3 +206,27 @@ exports.uploadFiles = async (req, res) => {
 		fs.unlinkSync(file.path);
 	}
 };
+
+// GET FILES NOT IN FOLDER
+
+exports.getFilesNotInFolder = async (req, res) => {
+	const userId = req.params.userId;
+	const fileId = req.params.fileId;
+
+	// get file data
+
+	res.render('deleteFilesNoFolder', { backPath: userId });
+};
+
+// DELETE FILES NOT IN FOLDER
+
+exports.getDeleteFiles = async (req, res) => {
+	// delete file from storage
+	// delete reference from local db
+	// redirect to main
+
+	try {
+	} catch {
+		res.status(500).json({ error: error.message });
+	}
+};
