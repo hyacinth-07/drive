@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const { name } = require('ejs');
+const { urlencoded } = require('express');
 const prisma = new PrismaClient();
 
 // ADD USER
@@ -87,4 +88,16 @@ exports.getFiles = async (folderId) => {
 	});
 
 	return files;
+};
+
+exports.addFile = async (file, publicUrl, user) => {
+	await prisma.file.create({
+		data: {
+			name: file.originalname,
+			url: publicUrl,
+			size: file.size,
+			fileType: file.mimetype,
+			userId: user,
+		},
+	});
 };
