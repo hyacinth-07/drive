@@ -95,4 +95,17 @@ router.post(
 	driveController.getDeleteFiles
 );
 
+// DOWNLOAD FILES NOT IN FOLDER
+router.get(
+	'/:userId/_/:fileId/download',
+	driveController.verifyUser,
+	driveController.getDownloadFiles
+);
+
+router.post(
+	'/:userId/_/:fileId/download',
+	driveController.verifyUser,
+	driveController.downloadFile
+);
+
 module.exports = router;

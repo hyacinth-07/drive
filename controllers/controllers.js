@@ -183,9 +183,11 @@ exports.uploadFiles = async (req, res) => {
 	const { file } = req;
 
 	try {
+		const fileBuffer = fs.readFileSync(file.path);
+
 		const { data, error } = await supabase.storage
 			.from('publicfiles')
-			.upload(`uploads/${file.originalname}`, file.path, {
+			.upload(`uploads/${file.originalname}`, fileBuffer, {
 				contentType: file.mimetype,
 			});
 
@@ -236,7 +238,35 @@ exports.getDeleteFiles = async (req, res) => {
 			if (error) throw error;
 		});
 		res.redirect('/' + userId);
-	} catch {
+	} catch (error) {
 		res.status(500).json({ error: error.message });
+	}
+};
+
+// GET DOWNLOAD SCREEN
+
+exports.getDownloadFiles = async (req, res) => {
+	const userId = req.params.userId;
+	const fileId = req.params.fileId;
+
+	const file = await db.getOneFile(fileId);
+
+	res.render('downloadScreen', { backPath: userId, file: file });
+};
+
+exports.downloadFile = async (req, res) => {
+	const fileId = req.params.fileId;
+	const file = await db.getOneFile(fileId);
+
+	try {
+		const { data, error } = await supabase.storage
+			.from('publicfiles')
+			.getPublicUrl(`uploads/${file.name}`, { download: true });
+
+		if (error) throw error;
+
+		res.redirect(data.publicUrl);
+	} catch (error) {
+		res.status(502).json({ error: error.message });
 	}
 };
