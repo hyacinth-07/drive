@@ -185,7 +185,9 @@ exports.uploadFiles = async (req, res) => {
 	try {
 		const { data, error } = await supabase.storage
 			.from('publicfiles')
-			.upload(`uploads/${file.originalname}`, file.path);
+			.upload(`uploads/${file.originalname}`, file.path, {
+				contentType: file.mimetype,
+			});
 
 		if (error) {
 			throw error;
@@ -221,10 +223,6 @@ exports.getFilesNotInFolder = async (req, res) => {
 // DELETE FILES NOT IN FOLDER
 
 exports.getDeleteFiles = async (req, res) => {
-	// delete file from storage
-	// delete reference from local db
-	// redirect to main
-
 	const userId = req.params.userId;
 	const fileId = req.params.fileId;
 	const file = await db.getOneFile(fileId);
