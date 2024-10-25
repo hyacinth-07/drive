@@ -81,8 +81,6 @@ exports.deleteFolder = async (folderId) => {
 	});
 };
 
-// --- FILES LOGIC --
-
 exports.getFolderContent = async (folderId, userId) => {
 	const folderContent = await prisma.folder.findMany({
 		where: {
@@ -96,6 +94,8 @@ exports.getFolderContent = async (folderId, userId) => {
 	return folderContent;
 };
 
+// --- FILES LOGIC --
+
 exports.addFile = async (file, publicUrl, user) => {
 	await prisma.file.create({
 		data: {
@@ -104,6 +104,24 @@ exports.addFile = async (file, publicUrl, user) => {
 			size: file.size,
 			fileType: file.mimetype,
 			userId: user,
+		},
+	});
+};
+
+exports.getOneFile = async (fileId) => {
+	const file = await prisma.file.findUnique({
+		where: {
+			id: fileId,
+		},
+	});
+
+	return file;
+};
+
+exports.deleteFile = async (fileId) => {
+	await prisma.file.delete({
+		where: {
+			id: fileId,
 		},
 	});
 };

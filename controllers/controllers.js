@@ -213,9 +213,9 @@ exports.getFilesNotInFolder = async (req, res) => {
 	const userId = req.params.userId;
 	const fileId = req.params.fileId;
 
-	// get file data
+	const file = await db.getOneFile(fileId);
 
-	res.render('deleteFilesNoFolder', { backPath: userId });
+	res.render('deleteFilesNoFolder', { backPath: userId, file: file });
 };
 
 // DELETE FILES NOT IN FOLDER
@@ -225,7 +225,19 @@ exports.getDeleteFiles = async (req, res) => {
 	// delete reference from local db
 	// redirect to main
 
+	const userId = req.params.userId;
+	const fileId = req.params.fileId;
+	const file = await db.getOneFile(fileId);
+
 	try {
+		await db.deleteFile(file.id).then(() => {
+			const { data, error } = supabase.storage
+				.from('publicfiles')
+				.remove([`uploads/${file.name}`]);
+
+			if (error) throw error;
+		});
+		res.redirect('/' + userId);
 	} catch {
 		res.status(500).json({ error: error.message });
 	}

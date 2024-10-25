@@ -89,4 +89,10 @@ router.get(
 	driveController.getFilesNotInFolder
 );
 
+router.post(
+	'/:userId/_/:fileId/delete',
+	driveController.verifyUser,
+	driveController.getDeleteFiles
+);
+
 module.exports = router;
