@@ -171,7 +171,9 @@ exports.getFolderContent = async (req, res) => {
 
 // UPLOAD FILES
 exports.uploadScreen = async (req, res) => {
-	res.render('uploadForm', { user: req.user });
+	const folderList = await db.getFolders(req.user.id);
+
+	res.render('uploadForm', { user: req.user, folderList: folderList });
 };
 
 exports.uploadFiles = async (req, res) => {
@@ -181,6 +183,7 @@ exports.uploadFiles = async (req, res) => {
 	}
 
 	const { file } = req;
+	const folderName = req.body.folder;
 
 	try {
 		const fileBuffer = fs.readFileSync(file.path);
@@ -199,7 +202,7 @@ exports.uploadFiles = async (req, res) => {
 			.from('publicfiles')
 			.getPublicUrl(`uploads/${file.originalname}`);
 
-		await db.addFile(file, url.data.publicUrl, req.user.id);
+		await db.addFile(file, url.data.publicUrl, req.user.id, folderName);
 
 		// clean up temporary folder
 		fs.unlinkSync(file.path);

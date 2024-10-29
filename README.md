@@ -1,4 +1,4 @@
 # drive
 
 - upload, delete and download files inside of folders
-- use a dropdown menu or something similiar
+- use a dropdown menu or something similar

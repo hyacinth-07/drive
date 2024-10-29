@@ -1,6 +1,15 @@
 <h1>Upload your files, <%= user.name %></h1>
 <form action="/upload" method="post" enctype="multipart/form-data">
 	<input type="file" name="file" />
+
+	<label for="folder">Choose a folder:</label>
+	<select name="folder" id="folder">
+		<option value="">-- no folder --</option>
+		<% folderList.forEach((elem) => { %>
+		<option value="<%= elem.id %>"><%= elem.name %></option>
+		<% }) %>
+	</select>
+
 	<input type="submit" value="Upload File" />
 </form>
 <p><a href="/">Go back to home</a></p>
