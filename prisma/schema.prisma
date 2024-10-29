@@ -46,7 +46,7 @@ model File {
   url       String // supabase url
   size      BigInt
   fileType  String
-  folder    Folder?  @relation(fields: [folderId], references: [id])
+  folder    Folder?   @relation(fields: [folderId], references: [id])
   folderId  String?
   user      User     @relation("userFiles", fields: [userId], references: [id])
   userId    String

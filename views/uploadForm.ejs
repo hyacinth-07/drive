@@ -3,8 +3,8 @@
 	<input type="file" name="file" />
 
 	<label for="folder">Choose a folder:</label>
-	<select name="folder" id="folder">
-		<option value="">-- no folder --</option>
+	<select name="folderDestination" id="folder">
+		<option value="null">-- no folder --</option>
 		<% folderList.forEach((elem) => { %>
 		<option value="<%= elem.id %>"><%= elem.name %></option>
 		<% }) %>

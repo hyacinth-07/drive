@@ -1,3 +1,18 @@
 <h1>Here are the files for the folder</h1>
 
+<% if (files) { %>
+
+            <table>
+                <tbody>
+                    <% files.forEach((elem) => { %>
+                        <tr>
+                            <th><%= elem.name %></th>
+                            <td><a href="<%= elem.folderId %>/<%= elem.id %>/delete"> - delete</td>
+                            <td><a href="<%= elem.folderId %>/<%= elem.id %>/download"> - download</td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+            <% } %>
+
 <p><a href="\<%= parentFolder.userId %>">Go back</a></p>

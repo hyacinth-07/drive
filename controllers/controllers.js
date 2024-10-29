@@ -166,7 +166,12 @@ exports.addFolder = async (req, res) => {
 // GET FOLDER CONTENT
 exports.getFolderContent = async (req, res) => {
 	const folderContent = await db.getFolderContent(req.params.folderId);
-	res.render('filePage', { files: folderContent, parentFolder: req.params });
+
+	res.render('filePage', {
+		files: folderContent,
+		parentFolder: req.params,
+		user: req.user,
+	});
 };
 
 // UPLOAD FILES
@@ -183,7 +188,7 @@ exports.uploadFiles = async (req, res) => {
 	}
 
 	const { file } = req;
-	const folderName = req.body.folder;
+	const folderName = req.body.folderDestination;
 
 	try {
 		const fileBuffer = fs.readFileSync(file.path);

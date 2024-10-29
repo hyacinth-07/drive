@@ -44,6 +44,7 @@ exports.getFilesAndFolders = async (folderUser) => {
 	const files = await prisma.file.findMany({
 		where: {
 			userId: folderUser,
+			folderId: null,
 		},
 	});
 
@@ -91,13 +92,10 @@ exports.deleteFolder = async (folderId) => {
 	});
 };
 
-exports.getFolderContent = async (folderId, userId) => {
-	const folderContent = await prisma.folder.findMany({
+exports.getFolderContent = async (folderId) => {
+	const folderContent = await prisma.file.findMany({
 		where: {
-			id: folderId,
-		},
-		include: {
-			files: true,
+			folderId: folderId,
 		},
 	});
 
@@ -107,7 +105,7 @@ exports.getFolderContent = async (folderId, userId) => {
 // --- FILES LOGIC --
 
 exports.addFile = async (file, publicUrl, user, folderName) => {
-	if (!folderName == '') {
+	if (folderName == 'null') {
 		await prisma.file.create({
 			data: {
 				name: file.originalname,
@@ -115,7 +113,6 @@ exports.addFile = async (file, publicUrl, user, folderName) => {
 				size: file.size,
 				fileType: file.mimetype,
 				userId: user,
-				folderId: folderName,
 			},
 		});
 	} else {
@@ -126,6 +123,7 @@ exports.addFile = async (file, publicUrl, user, folderName) => {
 				size: file.size,
 				fileType: file.mimetype,
 				userId: user,
+				folderId: folderName,
 			},
 		});
 	}
@@ -133,20 +131,8 @@ exports.addFile = async (file, publicUrl, user, folderName) => {
 
 exports.getOneFile = async (fileId) => {
 	const file = await prisma.file.findUnique({
-		// where: {
-		// 	id: fileId,
-		// 	folderId: { is: null },
-		// },
-
 		where: {
-			AND: [
-				{
-					id: fileId,
-				},
-				{
-					folderId: { is: null },
-				},
-			],
+			id: fileId,
 		},
 	});
 

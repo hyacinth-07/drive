@@ -1,4 +1,4 @@
 # drive
 
-- upload, delete and download files inside of folders
-- use a dropdown menu or something similar
+- Add a route to view specific file details like name, size, and upload time.
+- There should be a download button to allow users to download the file

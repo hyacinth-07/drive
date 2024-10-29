@@ -108,4 +108,30 @@ router.post(
 	driveController.downloadFile
 );
 
+// DELETE FILES IN FOLDERS
+router.get(
+	'/:userId/:folderId/:fileId/delete',
+	driveController.verifyUser,
+	driveController.getFilesNotInFolder
+);
+
+router.post(
+	'/:userId/:folderId/:fileId/delete',
+	driveController.verifyUser,
+	driveController.getDeleteFiles
+);
+
+// DOWNLOAD FILES IN FOLDERS
+router.get(
+	'/:userId/:folderId/:fileId/download',
+	driveController.verifyUser,
+	driveController.getDownloadFiles
+);
+
+router.post(
+	'/:userId/:folderId/:fileId/download',
+	driveController.verifyUser,
+	driveController.downloadFile
+);
+
 module.exports = router;
