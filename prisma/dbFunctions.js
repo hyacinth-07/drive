@@ -111,6 +111,7 @@ exports.getFolderContent = async (folderId) => {
 			formattedDate: true,
 			fileType: true,
 			id: true,
+			userId: true,
 		},
 	});
 

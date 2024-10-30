@@ -9,8 +9,8 @@
                             <th><%= elem.trueName %></th>
 						    <td><%= elem.trueSize %></td>
 						    <td><%= elem.formattedDate %></td>
-                            <td><a href="<%= elem.folderId %>/<%= elem.id %>/delete"> - delete</td>
-                            <td><a href="<%= elem.folderId %>/<%= elem.id %>/download"> - download</td>
+                            <td><a href="/<%= elem.userId %>/<%= parentFolder.folderId %>/<%= elem.id %>/delete"> - delete</td>
+                            <td><a href="/<%= elem.userId %>/<%= parentFolder.folderId %>/<%= elem.id %>/download"> - download</td>
                             <td><%= elem.fileType %></td>
                         </tr>
                     <% }) %>
