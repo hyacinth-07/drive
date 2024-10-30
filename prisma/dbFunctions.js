@@ -2,6 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const { name } = require('ejs');
 const { urlencoded } = require('express');
 const prisma = new PrismaClient();
+const extendedFile = require('./prisma_extensions');
 
 // ADD USER
 
@@ -41,10 +42,17 @@ exports.getFilesAndFolders = async (folderUser) => {
 		},
 	});
 
-	const files = await prisma.file.findMany({
+	const files = await extendedFile.file.findMany({
 		where: {
 			userId: folderUser,
 			folderId: null,
+		},
+		select: {
+			trueName: true,
+			trueSize: true,
+			formattedDate: true,
+			fileType: true,
+			id: true,
 		},
 	});
 
@@ -93,9 +101,16 @@ exports.deleteFolder = async (folderId) => {
 };
 
 exports.getFolderContent = async (folderId) => {
-	const folderContent = await prisma.file.findMany({
+	const folderContent = await extendedFile.file.findMany({
 		where: {
 			folderId: folderId,
+		},
+		select: {
+			trueName: true,
+			trueSize: true,
+			formattedDate: true,
+			fileType: true,
+			id: true,
 		},
 	});
 
